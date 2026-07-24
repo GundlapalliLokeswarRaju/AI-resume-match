@@ -1,0 +1,9 @@
+# The [standard] extra is required — FastAPI Cloud launches the app with the
+# `fastapi` CLI, which is only available with it installed.
+fastapi[standard]>=0.115.0
+pydantic>=2.8.0
+pydantic-settings>=2.4.0
+python-dotenv>=1.0.1
+groq>=0.18.0
+pypdf>=5.0.0
+python-docx>=1.1.2

@@ -1,0 +1,24 @@
+Senior AI/ML Engineer
+
+We are hiring a Senior AI/ML Engineer to build and ship production LLM systems.
+
+Responsibilities:
+- Design and deploy RAG pipelines over large internal document sets
+- Build and maintain FastAPI microservices serving ML models at scale
+- Fine-tune and evaluate large language models for domain-specific tasks
+- Own MLOps: CI/CD, monitoring, and model versioning on AWS
+- Partner cross-functionally with product and data teams
+
+Requirements:
+- 5+ years of experience in machine learning or backend engineering
+- Expert-level Python; strong SQL
+- Hands-on experience with PyTorch, Hugging Face Transformers and LangChain
+- Production experience with Docker, Kubernetes and AWS
+- Experience with vector databases (Pinecone, FAISS or Chroma) and embeddings
+- Solid grasp of prompt engineering and LLM evaluation
+- Familiarity with PostgreSQL, Redis and REST API design
+
+Nice to have:
+- Experience with Airflow or Spark data pipelines
+- Contributions to open-source ML projects
+- Experience mentoring junior engineers

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ResuMatch AI — Resume Analyzer</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127919;</text></svg>" />
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◈</span>
+    <div>
+      <h1>ResuMatch<span class="accent"> AI</span></h1>
+      <p class="tagline">Resume × Job Description intelligence</p>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span id="llmBadge" class="badge badge-muted">checking…</span>
+    <a class="ghost-btn" href="/docs" target="_blank" rel="noopener">API Docs</a>
+  </div>
+</header>
+
+<main>
+  <!-- ============ INPUT ============ -->
+  <section class="card input-card" id="inputCard">
+    <div class="grid-2">
+      <div>
+        <label class="field-label">1 · Your resume</label>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-mode="file" role="tab">Upload file</button>
+          <button class="tab" data-mode="text" role="tab">Paste text</button>
+        </div>
+
+        <div id="fileMode">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload resume">
+            <input type="file" id="fileInput" accept=".pdf,.docx,.txt,.md" hidden />
+            <div class="dz-icon">↑</div>
+            <p class="dz-title">Drop your resume here</p>
+            <p class="dz-sub">PDF · DOCX · TXT — max 5 MB</p>
+          </div>
+          <div id="fileChip" class="file-chip hidden">
+            <span class="fc-name"></span>
+            <button class="fc-clear" aria-label="Remove file">×</button>
+          </div>
+        </div>
+
+        <div id="textMode" class="hidden">
+          <textarea id="resumeText" class="ta ta-tall"
+            placeholder="Paste your full resume text here…"></textarea>
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label" for="jdText">2 · Target job description</label>
+        <textarea id="jdText" class="ta ta-tall"
+          placeholder="Paste the complete job posting — responsibilities, requirements, tech stack…"></textarea>
+        <div class="jd-meta">
+          <span id="jdCount">0 characters</span>
+          <button class="link-btn" id="sampleBtn" type="button">Load sample job description</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="analyzeBtn" class="primary-btn">Analyze my resume</button>
+      <p id="errorMsg" class="error hidden"></p>
+    </div>
+  </section>
+
+  <!-- ============ LOADING ============ -->
+  <section class="card loading hidden" id="loadingCard">
+    <div class="spinner"></div>
+    <p id="loadingText">Extracting text…</p>
+    <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="results" class="hidden">
+
+    <div class="card score-card">
+      <div class="score-left">
+        <div class="gauge">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="gauge-bg" cx="100" cy="100" r="82" />
+            <circle class="gauge-fg" id="gaugeArc" cx="100" cy="100" r="82" />
+          </svg>
+          <div class="gauge-center">
+            <span class="gauge-value" id="overallScore">0</span>
+            <span class="gauge-unit">/100</span>
+          </div>
+        </div>
+        <div class="verdict">
+          <span class="band-pill" id="bandPill">—</span>
+          <p id="verdictText">—</p>
+          <p class="meta" id="metaLine"></p>
+        </div>
+      </div>
+
+      <div class="score-right">
+        <div class="metric" data-key="keyword">
+          <div class="metric-head"><span>Keyword match</span><b id="mKeyword">0%</b></div>
+          <div class="meter"><div class="meter-fill" id="barKeyword"></div></div>
+          <small>50% of total — what recruiters filter on</small>
+        </div>
+        <div class="metric" data-key="ats">
+          <div class="metric-head"><span>ATS readiness</span><b id="mAts">0%</b></div>
+          <div class="meter"><div class="meter-fill" id="barAts"></div></div>
+          <small>30% of total — parseability &amp; structure</small>
+        </div>
+        <div class="metric" data-key="exp">
+          <div class="metric-head"><span>Experience signal</span><b id="mExp">0%</b></div>
+          <div class="meter"><div class="meter-fill" id="barExp"></div></div>
+          <small>20% of total — seniority &amp; tenure fit</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 gap">
+      <div class="card">
+        <h2 class="card-title">Keyword gap analysis</h2>
+        <p class="card-sub" id="kwSub"></p>
+        <h3 class="mini-title miss">Missing from your resume</h3>
+        <div class="chips" id="missingChips"></div>
+        <h3 class="mini-title hit">Already covered</h3>
+        <div class="chips" id="matchedChips"></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">ATS checklist</h2>
+        <p class="card-sub">How an applicant tracking system will read this file.</p>
+        <ul class="checks" id="atsChecks"></ul>
+      </div>
+    </div>
+
+    <div class="card" id="aiCard">
+      <div class="ai-head">
+        <h2 class="card-title">AI insights</h2>
+        <span class="badge" id="modelBadge"></span>
+      </div>
+      <div id="aiBody"></div>
+    </div>
+
+    <div class="actions center">
+      <button class="ghost-btn" id="resetBtn">Analyze another resume</button>
+      <button class="ghost-btn" id="jsonBtn">View raw JSON</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Built with FastAPI · Groq · vanilla JS —
+  <a href="/docs" target="_blank" rel="noopener">interactive API docs</a>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

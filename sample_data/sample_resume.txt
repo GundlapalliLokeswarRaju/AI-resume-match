@@ -1,0 +1,48 @@
+PRIYA SHARMA
+Bengaluru, India | priya.sharma@email.com | +91 98765 43210
+linkedin.com/in/priyasharma-dev | github.com/priyasharma
+
+PROFESSIONAL SUMMARY
+Backend engineer with 4 years of experience building Python services and data
+pipelines. Comfortable across the stack from API design to deployment.
+
+EXPERIENCE
+
+Software Engineer — Nexora Technologies
+Mar 2022 – Present
+• Built and shipped 12 REST API microservices in Python and FastAPI, serving
+  1.2M requests per day at p99 latency under 180ms.
+• Reduced data pipeline runtime by 45% by rewriting batch jobs in Spark and
+  moving orchestration to Airflow.
+• Responsible for the team's PostgreSQL schema design and query optimization.
+• Deployed services to AWS using Docker and GitHub Actions CI/CD, cutting
+  release time from 2 hours to 15 minutes.
+• Mentored 3 junior engineers through code review and pairing.
+
+Junior Developer — Datalane Systems
+Jul 2020 – Feb 2022
+• Worked on internal reporting dashboards using Python and SQL.
+• Helped with migration of legacy scripts to a scheduled ETL framework.
+• Wrote unit tests with pytest, raising service coverage from 40% to 82%.
+
+PROJECTS
+
+Document Search Engine
+• Built a semantic search prototype over 50k internal documents using
+  sentence embeddings and FAISS, improving retrieval precision by 30%.
+
+Sentiment Classifier
+• Trained a text classification model with scikit-learn achieving 91% F1 on a
+  customer feedback dataset of 40k labelled reviews.
+
+EDUCATION
+B.Tech, Computer Science — Visvesvaraya Technological University, 2020
+CGPA 8.4 / 10
+
+TECHNICAL SKILLS
+Languages: Python, SQL, JavaScript, Bash
+Frameworks: FastAPI, Flask, Django
+Data: PostgreSQL, Redis, Spark, Airflow, pandas, NumPy
+ML: scikit-learn, FAISS, embeddings
+Cloud & DevOps: AWS, Docker, Git, GitHub Actions, Linux
+Practices: Agile, Scrum, unit testing, code review
